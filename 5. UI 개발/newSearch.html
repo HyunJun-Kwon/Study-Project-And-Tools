@@ -28,6 +28,45 @@
 </head>
 
 <body class="vh-100 overflow-hiddden">
+	<!-- ###################송도훈 수정############### -->
+	<!-- modal -->
+	<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form action="/analyze.html" method="get" target="result" onsubmit="newpage();">
+					<div class="modal-header">
+						<h5 class="modal-title" id="detailModalLabel">상세 분석</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div>
+							<label for="area-size" class="col-form-label">예정 평 수</label>
+							<input type="text" class="form-control" name="area-size" id="area-size">
+						</div>
+						<div>
+							<label for="employee-count" class="col-form-label">예정 종업원 수</label>
+							<input type="text" class="form-control" name="employee-count" id="employee-count">
+						</div>
+						<div>
+							<label for="dept-amount" class="col-form-label">월 대출 상환 금액</label>
+							<input type="text" class="form-control" name="dept-amount" id="dept-amount">
+							<div class="form-text" id="dept-amountHelp">만 원단위로 입력해 주세요.</div>
+						</div>
+						<div>
+							<input type="hidden" name="area-name" value="" id="area-name">
+							<input type="hidden" name="cal" value="">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">입력</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- ###########       여기까지   모달 페이지 ############# -->
+
 	<!--nav------------------------------------------------------------------------------------------->
 	<nav class="navbar fixed-top navbar-expand-lg">
 		<div class="container">
@@ -141,11 +180,13 @@
 						</button>
 					</div>
 					<div class="col-log-9" id="detailSearch">
-						<button type="submit" class="btn btn-outline-primary" disabled id="detailButton"
-							data-bs-toggle="collapse" data-bs-target="#detailInfo" aria-expanded="false"
-							aria-controls="detailInfo">
+						<!-- ###############################송도훈 수정################# -->
+						<!-- button type submit collapse 를 modal 로 바꿧음 -->
+						<button type="button" class="btn btn-outline-primary" id="detailButton" data-bs-toggle="modal"
+							data-bs-target="#detailModal" disabled>
 							<h3>상세 분석</h3>
 						</button>
+						<!-- ############################################## -->
 					</div>
 				</div>
 			</div>
@@ -161,7 +202,7 @@
 						<div id="bodyIcon" class="bodyIcon"><img src="img/content.png" alt=""></div>
 						<div class="textBox" id="salePredictText"></div>
 					</div>
-					<!-- <div class="chartBox">
+					<!-- <div class="chartBox"> 
 						<canvas id="salePredictChart"></canvas>
 					</div> -->
 					<div id="population">
