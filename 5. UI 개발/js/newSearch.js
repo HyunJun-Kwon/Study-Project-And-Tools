@@ -1,31 +1,6 @@
 const abc = [];
 const polygons = [];
-// ##############송도훈 추가################
-function newpage() {
-    window.open('analyze.html', 'result', 'width=800, height=1200, left=550');
-    return true;
-}
-// #############################################
-
-
 window.onload = function () {
-    // var defaultCenter = { lat: 37.4775187, lng: 127.1456706 };
-    // var defaultZoom = 5;
-    // var mapContainer = document.getElementById('map3');
-    // function initMap() {
-    //     var mapOption = {
-    //         center: defaultCenter,
-    //         zoom: defaultZoom,
-    //     };
-
-    //     var map = new kakao.maps.Map(mapContainer, mapOption);
-
-    //     window.addEventListener('resize', function () {
-    //         map.setCenter(defaultCenter);
-    //     });
-    // }
-
-    // initMap();
 
     var defaultCenter = new kakao.maps.LatLng(37.4775187, 127.1456706);
 
@@ -93,7 +68,8 @@ window.onload = function () {
     var customOverlays = {};
     var dongs = {};
     var infoDatas = {};
-    var array = []
+    var array = [];
+    
     for (let i = 0; i < abc.length; i++) {
         customOverlays['co' + i] = document.getElementById('overlay' + i)
         infoDatas['infoData' + i] = document.getElementById('infoData' + i)
@@ -118,12 +94,9 @@ window.onload = function () {
         eval('customOverlays.co' + i).onclick =
 
             function () {
-                // #########################송도훈 수정################
-                var areaname = document.getElementById("area-name");
-                // #################################################
                 var simpleBtn = document.getElementById('searchButton');
                 var detailBtn = document.getElementById('detailButton');
-
+               
                 simpleBtn.disabled = false;
                 detailBtn.disabled = false;
                 removePolygon();
@@ -140,9 +113,8 @@ window.onload = function () {
                         if (val.properties.temp === a) {
                             name = val.properties.temp;
                             region = val.properties.adm_nm;
-                            // ############송도훈 수정###########
-                            areaname.value = region;
-                            // ##################################3
+                            
+                            // console.log(region);
                             var regionChoice = document.getElementById("regionChoice");
                             regionChoice.innerHTML = "<span>&#183;&nbsp;&nbsp;" + region + "</span>";
 
@@ -158,9 +130,14 @@ window.onload = function () {
                                 }
                             }
                         }
+                        console.log(region);
                     });
-                });
 
+
+
+
+                });
+               
                 function displayArea(coordinates, name, properties) {
 
                     var path = [];
@@ -363,68 +340,144 @@ window.onload = function () {
     }
 
     // Chart
+    var region;
 
-    var salePredictArea = document.getElementById("salePredictChart").getContext('2d');
-    var salePredictChart = new Chart(salePredictArea, {
-        type: 'line',
-        data: {
-            labels: ['2017', '2018', '2019', '2020', '2021', '2022'],
-            datasets: [
-                {
-                    label: '총 환자수',
-                    data: [150, 157, 160, 154, 170, 180],
-                    borderWidth: 3,
-                    borderColor: 'black',
-                    backgroundColor: 'black'
-                    // tension: 0.4,
-                }
+    var chartData = {
+        ['서울시 송파구 위례동']: [[Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000)],
+        [Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100)],
+        [Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100)]],
+        ['경기도 하남시 위례동']: [[Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000)],
+        [Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100)],
+        [Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100)]],
+        ['경기도 성남시 위례동']: [[Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000)],
+        [Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100)],
+        [Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100)]]
+    };
+    var optionData = {
+        ['1']: [['2019', '2020', '2021', '2022'], [['0']], ['500'], ['(단위:천 명)'], ['총 인구수']],
+        ['2']: [['2019', '2020', '2021', '2022'], ['0'], '[3200]', ['(단위: 천 명'], ['유동인구']],
+        ['3']: [['2019', '2020', '2021', '2022'], ['0'], ['30'], ['(개 수)'], ['동종 병원 수']]
+    };
+    // lebels y축 min max ticks, plugins.text 4개
 
-            ]
-        },
-        options: {
-            reponsive: true,
-            maintainAspectRatio: false,
-            scales: {
+    function makingChart(chartArea, chartNumber) {
 
-                y: {
-                    grid: {
-                        display: true,
-                        color: 'rgba(0, 0, 0, 0.3)',
-                    },
-                    beginAtZero: true,
-                    min: 0,
-                    max: 13000,
-                    position: 'top',
-                    ticks: {
-                        callback: function (value, index, values) {
-                            if (index === 0) {
-                                return '(단위:만원)' + value;
-                            } else {
-                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        for (let b = 0; b < Object.keys(optionData).length; b++) {
+
+            if (chartNumber == Object.keys(optionData)[b]) {
+                for (let c = 0; c < Object.keys(chartData).length; c++) {
+                    if (region == Object.keys(chartData)[b]) {
+                        chartArea = new Chart(chartArea, {
+                            type: 'line',
+                            data: {
+                                labels: Object.values(optionData)[c][b],
+                                datasets: [
+                                    {
+                                        // label: 'population',
+                                        data: Object.values(chartData)[b][0],
+                                        borderWidth: 3,
+                                        borderColor: 'black',
+                                        backgroundColor: 'black'
+                                        // tension: 0.4,
+                                    }
+
+                                ]
+                            },
+                            options: {
+                                reponsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+
+                                    y: {
+                                        grid: {
+                                            display: true,
+                                            color: 'rgba(0, 0, 0, 0.3)',
+                                        },
+                                        beginAtZero: true,
+                                        min: Object.values(optionData)[b][1],
+                                        max: Object.values(optionData)[b][2],
+                                        position: 'top',
+                                        ticks: {
+                                            callback: function (value, index, values) {
+                                                if (index === 0) {
+                                                    return Object.values(optionData)[b][3] + value;
+                                                } else {
+                                                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                                }
+                                            },
+                                        },
+                                    },
+                                },
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: Object.values(optionData)[b][4],
+                                        font: {
+                                            size: 25,
+                                        }
+                                    },
+                                    legend: {
+                                        display: false,
+                                        labels: {
+                                            usePointStyle: true
+                                        },
+                                    },
+                                },
                             }
-                        },
-                    },
-                },
+                        });
+                    }
+                }
+            }
+        };
+
+    };
+
+    function makingRoundChart(ChartArea) {
+        ChartArea = new Chart(ChartArea, {
+            type: 'doughnut',
+            data: {
+                labels: ['10대', '20대', '30대', '40대', '50대', '60대', '70대 이상'],
+                datasets: [{
+                    // label: '인구',
+                    data: [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)],
+                    backgroundColor: ['rgba(132, 235, 220, 0.82)', 'rgba(190, 132, 235, 0.82)', 'rgba(136, 235, 132, 0.82)', 'rgba(235, 197, 132, 0.82)', 'rgba(202, 33, 162, 0.82)', 'rgba(39, 110, 18, 0.82)', 'rgba(221, 146, 158, 0.92)'],
+                    // borderColor: 'none',
+                    borderWidth: 1
+                }]
             },
-            plugins: {
-                title: {
-                    display: true,
-                    text: '월평균 추정매출',
-                    font: {
-                        size: 25,
+            options: {
+                plugins: {
+                    title: {
+                        display: false,
+                        text: '인구',
+                        font: {
+                            size: 30,
+                        }
+                    },
+                    legend: {
+                        display: true
+
                     }
                 },
-                legend: {
-                    display: false,
-                    labels: {
-                        usePointStyle: true
-                    },
-                },
+                responsive: false,
+
             },
-        }
-    });
+        });
+    }
 
+    // var salePredictArea = document.getElementById("salePredictChart").getContext('2d');
+    var populationChart = document.getElementById("populationChart").getContext('2d');
+    var floatingPpChart = document.getElementById("floatingPpChart").getContext('2d');
+    var countHospitalChart = document.getElementById("countHospitalChart").getContext('2d');
+    var populationRoundChart = document.getElementById("populationRoundChart").getContext('2d');
+    var floatingPpRoundChart = document.getElementById("floatingPpRoundChart").getContext('2d');
 
+    // makingChart(salePredictArea);
+    makingChart(populationChart, 1);
+    makingChart(floatingPpChart, 2);
+    makingChart(countHospitalChart, 3);
+    makingRoundChart(populationRoundChart);
+    makingRoundChart(floatingPpRoundChart);
 
 }
 
