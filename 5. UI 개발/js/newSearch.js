@@ -1,6 +1,31 @@
 const abc = [];
 const polygons = [];
+// ##############송도훈 추가################
+function newpage() {
+    window.open('analyze.html', 'result', 'width=800, height=1200, left=550');
+    return true;
+}
+// #############################################
+
+
 window.onload = function () {
+    // var defaultCenter = { lat: 37.4775187, lng: 127.1456706 };
+    // var defaultZoom = 5;
+    // var mapContainer = document.getElementById('map3');
+    // function initMap() {
+    //     var mapOption = {
+    //         center: defaultCenter,
+    //         zoom: defaultZoom,
+    //     };
+
+    //     var map = new kakao.maps.Map(mapContainer, mapOption);
+
+    //     window.addEventListener('resize', function () {
+    //         map.setCenter(defaultCenter);
+    //     });
+    // }
+
+    // initMap();
 
     var defaultCenter = new kakao.maps.LatLng(37.4775187, 127.1456706);
 
@@ -94,9 +119,12 @@ window.onload = function () {
         eval('customOverlays.co' + i).onclick =
 
             function () {
+                // #########################송도훈 수정################
+                var areaname = document.getElementById("area-name");
+                // #################################################
                 var simpleBtn = document.getElementById('searchButton');
                 var detailBtn = document.getElementById('detailButton');
-               
+
                 simpleBtn.disabled = false;
                 detailBtn.disabled = false;
                 removePolygon();
@@ -113,8 +141,9 @@ window.onload = function () {
                         if (val.properties.temp === a) {
                             name = val.properties.temp;
                             region = val.properties.adm_nm;
-                            
-                            // console.log(region);
+                            // ############송도훈 수정###########
+                            areaname.value = region;
+                            // ##################################3
                             var regionChoice = document.getElementById("regionChoice");
                             regionChoice.innerHTML = "<span>&#183;&nbsp;&nbsp;" + region + "</span>";
 
@@ -130,14 +159,9 @@ window.onload = function () {
                                 }
                             }
                         }
-                        console.log(region);
                     });
-
-
-
-
                 });
-               
+
                 function displayArea(coordinates, name, properties) {
 
                     var path = [];
@@ -340,7 +364,7 @@ window.onload = function () {
     }
 
     // Chart
-    var region;
+var region;
 
     var chartData = {
         ['서울시 송파구 위례동']: [[Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000), Math.round(Math.random() * 1000)],
@@ -368,64 +392,64 @@ window.onload = function () {
                 for (let c = 0; c < Object.keys(chartData).length; c++) {
                     if (region == Object.keys(chartData)[b]) {
                         chartArea = new Chart(chartArea, {
-                            type: 'line',
-                            data: {
-                                labels: Object.values(optionData)[c][b],
-                                datasets: [
-                                    {
-                                        // label: 'population',
-                                        data: Object.values(chartData)[b][0],
-                                        borderWidth: 3,
-                                        borderColor: 'black',
-                                        backgroundColor: 'black'
-                                        // tension: 0.4,
-                                    }
+        type: 'line',
+        data: {
+            labels: Object.values(optionData)[c][b],
+            datasets: [
+                {
+                    // label: 'population',
+                    data: Object.values(chartData)[b][0],
+                    borderWidth: 3,
+                    borderColor: 'black',
+                    backgroundColor: 'black'
+                    // tension: 0.4,
+                }
 
-                                ]
-                            },
-                            options: {
-                                reponsive: true,
-                                maintainAspectRatio: false,
-                                scales: {
+            ]
+        },
+        options: {
+            reponsive: true,
+            maintainAspectRatio: false,
+            scales: {
 
-                                    y: {
-                                        grid: {
-                                            display: true,
-                                            color: 'rgba(0, 0, 0, 0.3)',
-                                        },
-                                        beginAtZero: true,
-                                        min: Object.values(optionData)[b][1],
-                                        max: Object.values(optionData)[b][2],
-                                        position: 'top',
-                                        ticks: {
-                                            callback: function (value, index, values) {
-                                                if (index === 0) {
-                                                    return Object.values(optionData)[b][3] + value;
-                                                } else {
-                                                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                                                }
-                                            },
-                                        },
-                                    },
-                                },
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: Object.values(optionData)[b][4],
-                                        font: {
-                                            size: 25,
-                                        }
-                                    },
-                                    legend: {
-                                        display: false,
-                                        labels: {
-                                            usePointStyle: true
-                                        },
-                                    },
-                                },
+                y: {
+                    grid: {
+                        display: true,
+                        color: 'rgba(0, 0, 0, 0.3)',
+                    },
+                    beginAtZero: true,
+                    min: Object.values(optionData)[b][1],
+                    max: Object.values(optionData)[b][2],
+                    position: 'top',
+                    ticks: {
+                        callback: function (value, index, values) {
+                            if (index === 0) {
+                                return Object.values(optionData)[b][3] + value;
+                            } else {
+                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                             }
-                        });
+                        },
+                    },
+                },
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: Object.values(optionData)[b][4],
+                    font: {
+                        size: 25,
                     }
+                },
+                legend: {
+                    display: false,
+                    labels: {
+                        usePointStyle: true
+                    },
+                },
+            },
+        }
+    });
+}
                 }
             }
         };

@@ -28,7 +28,6 @@
 </head>
 
 <body class="vh-100 overflow-hiddden">
-	<!-- ###################송도훈 수정############### -->
 	<!-- modal -->
 	<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
@@ -65,7 +64,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- ###########       여기까지   모달 페이지 ############# -->
 
 	<!--nav------------------------------------------------------------------------------------------->
 	<nav class="navbar fixed-top navbar-expand-lg">
@@ -92,8 +90,7 @@
 					<ul class="navbar-nav justify-content-center fs-5 flex-grow-1 pe-3">
 						<div class="dropdown-center">
 							<li class="nav-item dropdown mx-5">
-								<a class="nav-link dropdown-toggle" href="#" role="button"
-									data-bs-toggle="dropdown">입지분석</a>
+								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">입지분석</a>
 								<ul class="dropdown-menu">
 									<li><a class="dropdown-item" href="populationStatus.html">인구분석</a></li>
 									<li><a class="dropdown-item" href="hospitalStatus.html">병원현황</a></li>
@@ -173,20 +170,16 @@
 						</select>
 					</div>
 					<div class="col-log-9" id="simpleSearch">
-						<button type="submit" class="btn btn-outline-primary" disabled id="searchButton"
-							data-bs-toggle="collapse" data-bs-target="#simpleInfo" aria-expanded="false"
-							aria-controls="simpleInfo">
+						<button type="submit" class="btn btn-outline-primary" disabled id="searchButton" data-bs-toggle="collapse"
+							data-bs-target="#simpleInfo" aria-expanded="false" aria-controls="simpleInfo">
 							<h3>간단 분석</h3>
 						</button>
 					</div>
 					<div class="col-log-9" id="detailSearch">
-						<!-- ###############################송도훈 수정################# -->
-						<!-- button type submit collapse 를 modal 로 바꿧음 -->
 						<button type="button" class="btn btn-outline-primary" id="detailButton" data-bs-toggle="modal"
 							data-bs-target="#detailModal" disabled>
 							<h3>상세 분석</h3>
 						</button>
-						<!-- ############################################## -->
 					</div>
 				</div>
 			</div>
