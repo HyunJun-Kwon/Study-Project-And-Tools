@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ipad.project.saleAnalysis.dao.ISaleRepository">
+
+<!-- 
+	<resultMap id="getOverlay" type="com.ipad.project.saleAnalysis.model.SaleOverlayVO">
+		<result property="name" column="NAME"/>
+		<result property="lat" column="LAT"/>
+		<result property="lng" column="LNG"/>
+	</resultMap>
+ -->
+ 
+	<select id="getOverlay" parameterType="list" resultType="com.ipad.project.saleAnalysis.model.SaleOverlayVO">
+		SELECT NAME,LAT,LNG FROM overlay
+	</select>
+	
+	
+	<select id="getRegionData" parameterType="String" resultType="com.ipad.project.saleAnalysis.model.RegionDataVO">
+		SELECT population, floatpp, income, dentalclinic FROM region_data WHERE adm_cd=#{regionCode}
+	</select>
+	
+	<select id="getPatientPoint" resultType="com.ipad.project.saleAnalysis.model.RegionDataVO">
+		SELECT * FROM patient_point
+	</select>
+</mapper>
