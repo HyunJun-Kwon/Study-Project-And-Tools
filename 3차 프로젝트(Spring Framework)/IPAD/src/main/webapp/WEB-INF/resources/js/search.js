@@ -84,7 +84,6 @@ window.onload = function () {
                 lat.push(data[i]["lat"]);
                 lng.push(data[i]["lng"]);
             }
-            console.log(data);
             var map = setMap();
             createCustomOverlay(map);
             getOverlay();
@@ -192,12 +191,11 @@ window.onload = function () {
                     });
 
                     $.ajax({
-                        url: './calculate.do',
+                        url: './calculate/' + regionCode,
                         method: 'GET',
-                        data: { regionCode: regionCode },
                         success: function (data) {
-                            sizes = data["size"];
-                            employees = data["employee"];
+                            sizes = data[0].rent_size;
+                            employees = data[0].employee_count;
                             modalText(sizes, employees);
                         },
                         error: function (error) {
@@ -296,17 +294,13 @@ window.onload = function () {
             url: './netprofit.do',
             method: 'POST',
             data: { rgCode: rgCode, seEmple: seEmple, juEmple: juEmple, arSize: arSize, deptAm: deptAm },
-            //processData: false, // 필수: FormData 사용 시 false로 설정
-            //contentType: false, // 필수: FormData 사용 시 false로 설정
             success: function (data) {
-                predictSale = NumberComma(data["predictSale"]);
-                predictPatient = data["predictPatient"];
-                employment_cost = NumberComma(data["employment_cost"]);
-                rentFee = NumberComma(data["rentFee"]);
-                dept = NumberComma(data["deptAmount"]);
-                netProfit = NumberComma(data["netProfit"]);
-                seniorEmployment_cost = NumberComma(data["seniorEmployment_cost"]);
-                juniorEmployment_cost = NumberComma(data["juniorEmployment_cost"]);
+                predictSale = NumberComma(data[0].predictSale);
+                predictPatient = NumberComma(data[0].predictPatient);
+                employment_cost = NumberComma(data[0].employment_cost);
+                rentFee = NumberComma(data[0].rentFee);
+                dept = NumberComma(data[0].deptAmount);
+                netProfit = NumberComma(data[0].netProfit);
                 monthSaleData();
             },
             error: function (error) {

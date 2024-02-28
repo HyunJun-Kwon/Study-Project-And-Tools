@@ -61,9 +61,6 @@
 								</div>
 								<p class="col fs-6 text-end list_textBox" id="patientList"></p>
 							</div>
-							<figcaption class="figure-caption text-end">해당 지역 취위생사들의 평균 임금으로서, 실제임금과 오차가 있을 수 잇으며,<br>
-								경력, 계약형태 등에
-								따라 차이가 크므로 참고자료로만 활용하세요.</figcaption>
 						</figure>
 						<figure class="figure figurebox">
 							<div id="employee_list" class="row justify-content-between list_box">
@@ -110,7 +107,7 @@
 		</div>
 
 		<!--nav------------------------------------------------------------------------------------------->
-		<%@ include file="/WEB-INF/views/common/header.jsp"%>
+		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 			<div style="height: 60px; width: 100px;"></div>
 
 			<!--------------------- M a p  ----------------------->
@@ -179,16 +176,17 @@
 					</div>
 				</div>
 			</div>
-			<!-- 설명 -->
+			<div style="height: 60px; width: 100px;"></div>
+			<!-- 설명 ==> 마케팅 비용 산정 기준 및 설명 
 			<div class="container">
 				<div class="boxShadow" style="height: 200px; margin-bottom: 50px;">
 					<h3>설명</h3>
 				</div>
 			</div>
-
+			-->
 			<!-------------------------------------- ------------------------------------------------------->
 
-			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+			<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 				<script src="${pageContext.request.contextPath}/js/search.js"></script>
 	</body>

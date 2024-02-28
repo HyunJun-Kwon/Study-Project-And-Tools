@@ -26,3 +26,4 @@
     <mvc:resources location="/WEB-INF/resources/css/" mapping="/css/**" />
 
 </beans>
+	
