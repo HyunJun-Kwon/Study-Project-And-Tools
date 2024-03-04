@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ipad.project.saleAnalysis.model.SaleCalculateVO;
 import com.ipad.project.saleAnalysis.model.SaleOverlayVO;
 import com.ipad.project.saleAnalysis.service.ISaleAnalysisService;
+import com.ipad.project.saleAnalysis.service.ISaleOverlayService;
 
 @Controller
 public class SalaAnalysisController{
 	
 	@Autowired
 	ISaleAnalysisService saleAnalysisService;
+	
+	@Autowired
+	ISaleOverlayService saleOverlaySerivce;
 
 	@RequestMapping(value="/saleAnalysis/search")
 	public String viewCommand(Model model) {
@@ -29,12 +33,14 @@ public class SalaAnalysisController{
 	
 	@GetMapping(value ="/saleAnalysis/customOverlay")
 	public @ResponseBody List<SaleOverlayVO> getOverlay(Model model) {
-		List<SaleOverlayVO> overlay = saleAnalysisService.getOverlay();
+		List<SaleOverlayVO> overlay = saleOverlaySerivce.getOverlay();
 		return overlay;
 	}
 	
+	
 	@GetMapping(value ="/saleAnalysis/calculate/{regionCode}")
 	public @ResponseBody List<SaleCalculateVO> getRecommandData(@PathVariable String regionCode) {
+		System.out.println(regionCode);
 		List<SaleCalculateVO> saleCalculate = saleAnalysisService.getRecommandData(regionCode);
 		return saleCalculate;
 	}

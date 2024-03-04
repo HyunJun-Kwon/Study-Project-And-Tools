@@ -6,11 +6,9 @@ import com.ipad.project.saleAnalysis.model.PatientPointVO;
 import com.ipad.project.saleAnalysis.model.RegionDataVO;
 import com.ipad.project.saleAnalysis.model.RegionFeeVO;
 import com.ipad.project.saleAnalysis.model.SaleCalculateVO;
-import com.ipad.project.saleAnalysis.model.SaleOverlayVO;
 import com.ipad.project.saleAnalysis.model.SalePredictPointVO;
 
 public interface ISaleAnalysisService {
-	List<SaleOverlayVO> getOverlay();
 	List<SaleCalculateVO> getRecommandData(String regionCode);
 	List<RegionDataVO> getRegionData(String regionCode);
 	List<PatientPointVO> getPatientPoint();

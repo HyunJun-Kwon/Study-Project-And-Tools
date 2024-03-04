@@ -162,7 +162,7 @@ window.onload = function () {
                 var areacode = document.getElementById("area-code");
 
                 removePolygon();
-                $.getJSON("/IPAD/json/emdTest.geojson", function (geojson) {
+                $.getJSON("/project/json/emdTest.geojson", function (geojson) {
                     var data = geojson.features;
                     var name = ' ';
                     var a = array[i];

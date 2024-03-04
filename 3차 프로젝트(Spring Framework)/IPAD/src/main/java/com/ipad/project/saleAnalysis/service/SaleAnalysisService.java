@@ -11,7 +11,6 @@ import com.ipad.project.saleAnalysis.model.PatientPointVO;
 import com.ipad.project.saleAnalysis.model.RegionDataVO;
 import com.ipad.project.saleAnalysis.model.RegionFeeVO;
 import com.ipad.project.saleAnalysis.model.SaleCalculateVO;
-import com.ipad.project.saleAnalysis.model.SaleOverlayVO;
 import com.ipad.project.saleAnalysis.model.SalePredictPointVO;
 
 @Service
@@ -19,11 +18,6 @@ public class SaleAnalysisService implements ISaleAnalysisService {
 
 	@Autowired
 	ISaleRepository saleRepository;
-
-	@Override
-	public List<SaleOverlayVO> getOverlay() {
-		return saleRepository.getOverlay();
-	}
 
 	@Override
 	public List<SaleCalculateVO> getRecommandData(String regionCode) {
