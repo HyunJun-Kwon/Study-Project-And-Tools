@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ipad.project.getRegionData.dao.IGetRegionDataRepository">
+	<select id="getRegionCode" parameterType="String"
+		resultType="string">
+		select adm_cd from region where region_name_detail =
+		#{regionName}
+	</select>
+
+	<select id="getVariableSale" parameterType="String"
+		resultMap="saleVariable">
+		select twenties, thirties, sixties, over70s, floatPp,
+		income, dentalClinic, subway from region_data where adm_cd= #{adm_cd}
+	</select>
+
+	<resultMap id="saleVariable"
+		type="com.ipad.project.getRegionData.model.CalSaleVO">
+		<result property="adm_cd" column="ADM_CD" />
+		<result property="twenties" column="TWENTIES" />
+		<result property="thirties" column="THIRTIES" />
+		<result property="sixties" column="SIXTIES" />
+		<result property="over70s" column="OVER70S" />
+		<result property="floatPp" column="FLOATPP" />
+		<result property="income" column="INCOME" />
+		<result property="dentalClinic" column="DENTALCLINIC" />
+		<result property="subway" column="SUBWAY" />
+	</resultMap>
+
+	<resultMap id="getSaleWeightPoint"
+		type="com.ipad.project.getRegionData.model.SalePointVO">
+		<result property="constant" column="CONSTANT" />
+		<result property="twentiesPoint" column="POPULATION_20_POINT" />
+		<result property="thirtiesPoint" column="POPULATION_30_POINT" />
+		<result property="sixtiesPoint" column="POPULATION_60_POINT" />
+		<result property="over70sPoint"
+			column="POPULATION_OVER70_POINT" />
+		<result property="floatPoint" column="FLOATPP_POINT" />
+		<result property="incomePoint" column="INCOME_POINT" />
+		<result property="dentalClinicPoint"
+			column="DENTALCLINIC_POINT" />
+		<result property="subwayPoint" column="SUBWAY_POINT" />
+	</resultMap>
+
+	<resultMap id="getPatientWeightPoint"
+		type="com.ipad.project.getRegionData.model.PatientPointVO">
+		<result property="constant" column="CONSTANT" />
+		<result property="population_point" column="POPULATION_POINT" />
+		<result property="float_point" column="FLOAT_POINT" />
+		<result property="income_point" column="INCOME_POINT" />
+		<result property="dentist_point" column="DENTIST_POINT" />
+	</resultMap>
+
+	<select id="getPatientWeight" resultMap="getPatientWeightPoint">
+		select * from patient_point
+	</select>
+	<select id="getSaleWeight" resultMap="getSaleWeightPoint">
+		select * from sale_point
+	</select>
+	<select id="calEmploymentAvgFee" parameterType="String"
+		resultType="int">
+		select average from employmentFee where adm_cd = #{adm_cd}
+	</select>
+
+	<select id="getHospitalData" resultType="hashmap">
+		SELECT h.hospital_name, r.region_name_detail, h.region, h.license_date,
+		h.close_date,
+		h.address, h.x_coordinate, h.y_coordinate, h.business_status
+		FROM hospital h
+		JOIN region r ON h.region = r.region_name
+	</select>
+	<select id="calRentFee" parameterType="String" resultType="int">
+		select rent_per from rentfee where adm_cd= #{adm_cd}
+	</select>
+
+	<select id="patientCal" parameterType="String"
+		resultType="hashmap">
+		SELECT population, floatpp, income, dentalclinic FROM region_data WHERE
+		adm_cd = '${_parameter}'
+	</select>
+
+</mapper>	
+	

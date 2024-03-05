@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.ipad.project.locationRecommand.dao.IRecommandRepository">
+	<select id="avgData" parameterType="String" resultType="int">
+		select avg(${_parameter}) from region_population, region_sale
+	</select>
+	
+	<select id="minData" parameterType="String" resultType="int">
+	 select min(${_parameter}) from region_population, region_sale
+	</select>
+	
+	<select id="maxData" parameterType="String" resultType="int">
+		select max(${_parameter}) from region_population, region_sale	
+	</select>
+	<select id="selectRegion" resultType="hashmap">
+		SELECT data.twenties, data.teens, data.over70s, data.sixties, region.region_name_detail, region.adm_cd, sale.sale 
+					FROM region_population data, region_sale sale, region 
+					WHERE data.adm_cd = region.adm_cd AND data.adm_cd = sale.adm_cd ORDER BY data.adm_cd
+	</select>
+	</mapper>

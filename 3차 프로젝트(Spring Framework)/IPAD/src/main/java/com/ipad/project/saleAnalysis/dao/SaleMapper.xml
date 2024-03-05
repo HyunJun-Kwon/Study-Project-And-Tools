@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ipad.project.saleAnalysis.dao.ISaleRepository">
+
+ 	<resultMap id="patientPointResultMap" type="com.ipad.project.saleAnalysis.model.PatientPointVO">
+ 		<result property="constant" column="constant"/>
+ 		<result property="population_point" column="population_point"/>
+ 		<result property="float_point" column="float_point"/>
+ 		<result property="income_point" column="income_point"/>
+ 		<result property="dentist_point" column="dentist_point"/>
+ 	</resultMap>
+ 	
+ 	<resultMap id="salePredictResultMap" type="com.ipad.project.saleAnalysis.model.SalePredictPointVO">
+ 		<result property="constant" column="constant"/>
+ 		<result property="population_20_point" column="population_20_point"/>
+ 		<result property="population_30_point" column="population_30_point"/>
+ 		<result property="population_60_point" column="population_60_point"/>
+ 		<result property="population_over70_point" column="population_over70_point"/>
+ 		<result property="floatPp_point" column="floatPp_point"/>
+ 		<result property="income_point" column="income_point"/>
+ 		<result property="dentalClinic_point" column="dentalClinic_point"/>
+ 		<result property="subway_point" column="subway_point"/>
+ 	</resultMap>
+ 	
+ 	<resultMap id="regionFeeResultMap" type="com.ipad.project.saleAnalysis.model.RegionFeeVO">
+ 		<result property="rent_per" column="rent_per"/>
+ 		<result property="under_three_year" column="under_three_year"/>
+ 		<result property="over_ten_year" column="over_ten_year"/>
+ 		<result property="average" column="average"/>
+ 	</resultMap>
+ 
+	<select id="getOverlay" parameterType="list" resultType="com.ipad.project.saleAnalysis.model.SaleOverlayVO">
+		SELECT NAME,LAT,LNG FROM overlay
+	</select>
+	
+	<select id="getRegionData" parameterType="String" resultType="com.ipad.project.saleAnalysis.model.RegionDataVO">
+		SELECT population, floatPp, income, dentalclinic FROM region_data WHERE adm_cd=#{regionCode}
+	</select>
+	
+	<select id="getPatientPoint" resultMap="patientPointResultMap">
+		SELECT * FROM patient_point
+	</select>
+	
+	<select id="getRegionFee" resultMap="regionFeeResultMap">
+		SELECT RENTFEE.rent_per, EMPLOYMENTFEE.under_three_year, EMPLOYMENTFEE.over_ten_year, EMPLOYMENTFEE.average FROM RENTFEE INNER JOIN EMPLOYMENTFEE ON RENTFEE.adm_cd = EMPLOYMENTFEE.adm_cd WHERE RENTFEE.adm_cd = #{regionCode}
+	</select>
+	
+	<select id="getSaleRegionData" parameterType="String" resultType="com.ipad.project.saleAnalysis.model.RegionDataVO">
+		SELECT twenties, thirties, sixties, over70s, floatPp, income, dentalClinic, subway FROM region_data WHERE adm_cd=#{regionCode}
+	</select>
+	 
+	<select id="getSalePredictPoint" resultMap="salePredictResultMap">
+		SELECT * FROM sale_point
+	</select>
+</mapper>
