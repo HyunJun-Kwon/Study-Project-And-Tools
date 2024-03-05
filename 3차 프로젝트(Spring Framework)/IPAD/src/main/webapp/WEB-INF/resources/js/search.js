@@ -76,7 +76,7 @@ window.onload = function () {
 
     $(document).ready(function () {
         $.ajax({
-            url: './customOverlay.do',
+            url: './customOverlay',
             method: 'GET',
             data: {},
             success: function (data) {
@@ -85,7 +85,7 @@ window.onload = function () {
                     lat.push(data[i]["lat"]);
                     lng.push(data[i]["lng"]);
                 }
-				
+
                 var map = setMap();
                 createCustomOverlay(map);
                 getOverlay();
@@ -162,7 +162,7 @@ window.onload = function () {
                 var areacode = document.getElementById("area-code");
 
                 removePolygon();
-                $.getJSON("/project/json/emdTest.geojson", function (geojson) {
+                $.getJSON(contextPath + "/json/emdTest.geojson", function (geojson) {
                     var data = geojson.features;
                     var name = ' ';
                     var a = array[i];
@@ -294,7 +294,7 @@ window.onload = function () {
         listName.innerText = rgName;
 
         $.ajax({
-            url: './netprofit.do',
+            url: './netprofit',
             method: 'POST',
             data: { rgCode: rgCode, seEmple: seEmple, juEmple: juEmple, arSize: arSize, deptAm: deptAm },
             success: function (data) {

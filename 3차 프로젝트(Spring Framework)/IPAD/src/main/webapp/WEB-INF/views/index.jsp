@@ -7,6 +7,6 @@
 <title>메인 페이지</title>
 </head>
 <body>
-	<% response.sendRedirect("/project/main.do"); %>
+	<% response.sendRedirect("/main"); %>
 </body>
 </html>

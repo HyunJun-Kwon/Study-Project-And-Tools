@@ -6,7 +6,7 @@
 <nav class="navbar fixed-top navbar-expand-lg">
 	<div class="container">
 		<!-- LOGO -->
-		<a class="navbar-brand fs-4" href="/IPAD/index.jsp"><img src="${pageContext.request.contextPath}/img/logo.png" alt=""></a>
+		<a class="navbar-brand fs-4" href="${pageContext.request.contextPath}/main"><img src="${pageContext.request.contextPath}/img/logo.png" alt=""></a>
 		<!-- Toggle BTN(모바일 비율 아이콘) -->
 		<button class="navbar-toggler shadow-none border-0 " type="button"
 			data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
