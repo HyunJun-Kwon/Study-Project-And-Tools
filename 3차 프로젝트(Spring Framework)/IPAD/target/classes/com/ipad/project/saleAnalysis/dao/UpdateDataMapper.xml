@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ipad.project.saleAnalysis.dao.IUpdateDataRepository">
+	<select id="getRecordNum" resultType="int">
+		select count(*) from
+		region_data
+	</select>
+
+	<select id="selectAdm" resultType="String">
+		select adm_cd from region
+		order by adm_cd
+	</select>
+
+	<insert id="insertRegionData"
+		parameterType="com.ipad.project.saleAnalysis.model.UpdateDataRepositoryParameter">
+		<choose>
+			<when test="age == 41">
+				INSERT INTO region_data (adm_cd, POPULATION,
+				HOUSEHOLD, HOUSEPRICE,
+				DENTALCLINIC, INCOME, SUBWAY, BUS, RESIDENT,
+				FLOATPP)
+				VALUES (#{vo.adm_cd}, #{record.population}, #{vo.houseHold},
+				#{vo.housePrice}, #{vo.dentalClinic}, #{vo.income}, #{vo.subway},
+				#{vo.bus}, #{vo.resident}, #{vo.floatingPp})
+			</when>
+			<otherwise>
+				UPDATE region_data
+				<set>
+					<choose>
+						<when test="age == 30">
+							UNDER10S = #{record.population}
+						</when>
+						<when test="age == 31">
+							TEENS = #{record.population}
+						</when>
+						<when test="age == 32">
+							TWENTIES = #{record.population}
+						</when>
+						<when test="age == 33">
+							THIRTIES = #{record.population}
+						</when>
+						<when test="age == 34">
+							FORTIES = #{record.population}
+						</when>
+						<when test="age == 35">
+							FIFTIES = #{record.population}
+						</when>
+						<when test="age == 36">
+							SIXTIES = #{record.population}
+						</when>
+						<when test="age == 40">
+							OVER70S = #{record.population}
+						</when>
+					</choose>
+				</set>
+				WHERE ADM_CD = #{record.adm_cd}
+			</otherwise>
+		</choose>
+	</insert>
+
+	<update id="updateRegionData"
+		parameterType="com.ipad.project.saleAnalysis.model.UpdateDataRepositoryParameter">
+		<choose>
+			<when test="age == 41">
+				UPDATE region_data
+				SET POPULATION = #{record.population},
+				HOUSEHOLD = #{vo.houseHold},
+				HOUSEPRICE = #{vo.housePrice},
+				DENTALCLINIC = #{vo.dentalClinic},
+				INCOME = #{vo.income},
+				SUBWAY = #{vo.subway},
+				BUS = #{vo.bus},
+				RESIDENT = #{vo.resident},
+				FLOATPP = #{vo.floatingPp}
+				WHERE ADM_CD = #{record.adm_cd}
+			</when>
+			<otherwise>
+				<choose>
+					<when test="age == 30">
+						UPDATE region_data SET UNDER10S = #{record.population} WHERE ADM_CD =
+						#{record.adm_cd}
+					</when>
+					<when test="age == 31">
+						UPDATE region_data SET TEENS = #{record.population} WHERE ADM_CD =
+						#{record.adm_cd}
+					</when>
+					<when test="age == 32">
+						UPDATE region_data SET TWENTIES = #{record.population} WHERE ADM_CD =
+						#{record.adm_cd}
+					</when>
+					<when test="age == 33">
+						UPDATE region_data SET THIRTIES = #{record.population} WHERE ADM_CD =
+						#{record.adm_cd}
+					</when>
+					<when test="age == 34">
+						UPDATE region_data SET FORTIES = #{record.population} WHERE ADM_CD =
+						#{record.adm_cd}
+					</when>
+					<when test="age == 35">
+						UPDATE region_data SET FIFTIES = #{record.population} WHERE ADM_CD =
+						#{record.adm_cd}
+					</when>
+					<when test="age == 36">
+						UPDATE region_data SET SIXTIES = #{record.population} WHERE ADM_CD =
+						#{record.adm_cd}
+					</when>
+					<when test="age == 40">
+						UPDATE region_data SET OVER70S = #{record.population} WHERE ADM_CD =
+						#{record.adm_cd}
+					</when>
+				</choose>
+			</otherwise>
+		</choose>
+	</update>
+</mapper>

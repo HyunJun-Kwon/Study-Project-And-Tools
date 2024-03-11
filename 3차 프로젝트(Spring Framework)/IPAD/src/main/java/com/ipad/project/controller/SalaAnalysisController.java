@@ -2,6 +2,8 @@ package com.ipad.project.controller;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import com.ipad.project.saleAnalysis.model.SaleCalculateVO;
 import com.ipad.project.saleAnalysis.model.SaleOverlayVO;
 import com.ipad.project.saleAnalysis.service.ISaleAnalysisService;
 import com.ipad.project.saleAnalysis.service.ISaleOverlayService;
+import com.ipad.project.saleAnalysis.service.IUpdateDataService;
 
 @Controller
 public class SalaAnalysisController{
@@ -26,6 +29,15 @@ public class SalaAnalysisController{
 	@Autowired
 	ISaleOverlayService saleOverlaySerivce;
 
+	@Autowired
+	IUpdateDataService updateRegionDataService;
+	
+	@PostConstruct
+	public void init() {
+		System.out.println("init 실행");
+		updateRegionDataService.InsertTotalData();
+	}
+	
 	@RequestMapping(value="/saleAnalysis/search")
 	public String viewCommand(Model model) {
 		return "saleAnalysis/search";
@@ -36,7 +48,6 @@ public class SalaAnalysisController{
 		List<SaleOverlayVO> overlay = saleOverlaySerivce.getOverlay();
 		return overlay;
 	}
-	
 	
 	@GetMapping(value ="/saleAnalysis/calculate/{regionCode}")
 	public @ResponseBody List<SaleCalculateVO> getRecommandData(@PathVariable String regionCode) {
