@@ -84,12 +84,9 @@ public class UpdateDataService implements IUpdateDataService {
 		updateRegionDatas();
 		setAgeType();
 		
-		System.out.println(regionDataVO.get(0).getAdm_cd() + " " + regionDataVO.get(1).getDentalClinic());
-		System.out.println("populationInsertData @@");
 		JsonNode jsonData = null;
 		Map<String,Object> map = null;
-		System.out.println(checkNum + "@@@@@");
-		System.out.println(regionDataVO.size() + "regionDataVO 사이즈");
+
 		try {
 			if (checkNum < regionDataVO.size()) {
 				for (UpdateRegionDataVO vo : regionDataVO) {
@@ -104,7 +101,6 @@ public class UpdateDataService implements IUpdateDataService {
 									
 									UpdateDataRepositoryParameter parameter = new UpdateDataRepositoryParameter(map, age, vo);
 									insertData(parameter);
-									System.out.println("insert실행 @@");
 								}
 							}
 						} catch (Exception e) {
@@ -113,21 +109,18 @@ public class UpdateDataService implements IUpdateDataService {
 					}
 				}
 			} else if (checkNum == regionDataVO.size()) {
-				System.out.println("else if 문 입장");
 				for (UpdateRegionDataVO vo : regionDataVO) {
 					for (int age : ageTypeList) {
 						try {
 							jsonData = parseJsonData(fetchDataFromAPI(vo.getAdm_cd(), age));
 							if (jsonData.get("errMsg").asText().equals("Success")) {
-								System.out.println(age + "41이 있나");
 								JsonNode resultNode = jsonData.get("result");
 								if (resultNode.isArray() && resultNode.size() > 0) {
 									JsonNode populationNode = resultNode.get(0);
 									map = convertJsonNodeToMap(populationNode);
-									System.out.println(vo.getAdm_cd() + "vo adm_cd @@@@@@@@@@@@@");
 									UpdateDataRepositoryParameter parameter = new UpdateDataRepositoryParameter(map, age, vo);
-									updateData(parameter);
-									System.out.println("update실행 @@");
+//									updateData(parameter);
+									insertData(parameter);
 								}
 							}
 						} catch (Exception e) {

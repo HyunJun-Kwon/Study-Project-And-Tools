@@ -34,7 +34,6 @@ public class SalaAnalysisController{
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("init 실행");
 		updateRegionDataService.InsertTotalData();
 	}
 	

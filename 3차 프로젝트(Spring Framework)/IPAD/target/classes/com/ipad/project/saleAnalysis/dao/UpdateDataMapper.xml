@@ -18,12 +18,14 @@
 		<choose>
 			<when test="age == 41">
 				INSERT INTO region_data (adm_cd, POPULATION,
-				HOUSEHOLD, HOUSEPRICE,
-				DENTALCLINIC, INCOME, SUBWAY, BUS, RESIDENT,
-				FLOATPP)
-				VALUES (#{vo.adm_cd}, #{record.population}, #{vo.houseHold},
-				#{vo.housePrice}, #{vo.dentalClinic}, #{vo.income}, #{vo.subway},
-				#{vo.bus}, #{vo.resident}, #{vo.floatingPp})
+           		HOUSEHOLD, HOUSEPRICE,
+            	DENTALCLINIC, INCOME, SUBWAY, BUS, RESIDENT,
+            	FLOATPP)
+            	SELECT #{vo.adm_cd}, #{record.population}, #{vo.houseHold},
+            	#{vo.housePrice}, #{vo.dentalClinic}, #{vo.income}, #{vo.subway},
+            	#{vo.bus}, #{vo.resident}, #{vo.floatingPp}
+            	FROM dual
+            	WHERE NOT EXISTS (SELECT * FROM region_data WHERE ADM_CD = #{record.adm_cd})
 			</when>
 			<otherwise>
 				UPDATE region_data
