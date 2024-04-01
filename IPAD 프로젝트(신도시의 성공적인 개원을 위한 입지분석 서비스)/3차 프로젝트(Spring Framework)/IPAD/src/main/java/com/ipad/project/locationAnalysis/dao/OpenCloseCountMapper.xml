@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ipad.project.locationAnalysis.dao.IOpenCloseCountRepository">
+
+    <!-- 개업 폐업 데이터 조회 -->
+    <select id="getOpenData" resultType="com.ipad.project.locationAnalysis.model.OpenCloseCountVO">
+    <![CDATA[
+        SELECT * FROM ( SELECT * FROM openclose_count ORDER BY year DESC) WHERE ROWNUM <= 4 order by year asc
+        ]]>
+    </select>
+
+    <!-- 개업 데이터 저장 -->
+    <insert id="saveOpenData">
+        INSERT INTO openclose_count (year, openings) VALUES (#{year}, #{count})
+    </insert>
+
+    <!-- 개업 데이터 업데이트 -->
+    <update id="updateOpenData">
+        UPDATE openclose_count SET openings = #{count} WHERE year = #{year}
+    </update>
+
+    <!-- 폐업 데이터 저장 -->
+    <update id="saveCloseData">
+        UPDATE openclose_count SET closures = #{count} WHERE year = #{year}
+    </update>
+
+    <!-- 병원 개업 수 저장 -->
+    <update id="saveHospitalCountData">
+        UPDATE openclose_count SET count = #{count} WHERE year = #{year}
+    </update>
+
+    <!-- 해당 연도 개업 수 조회 -->
+    <select id="getOpenDataByYear" resultType="int" parameterType="int">
+        SELECT COUNT(*) FROM hospital WHERE license_date BETWEEN TO_DATE(#{year}, 'YYYY') AND TO_DATE((#{year} + 1), 'YYYY')
+    </select>
+
+    <!-- 해당 연도 폐업 수 조회 -->
+    <select id="getCloseDataByYear" resultType="int" parameterType="int">
+        SELECT COUNT(*) FROM hospital WHERE close_date BETWEEN TO_DATE(#{year}, 'YYYY') AND TO_DATE((#{year} + 1), 'YYYY')
+    </select>
+
+    <!-- 해당 연도 병원 수 조회 -->
+    <select id="getHospitalCountByYear" resultType="int" parameterType="int">
+    <![CDATA[
+        SELECT COUNT(*) FROM hospital WHERE license_date <= TO_DATE(#{year}, 'YYYY') AND business_status ='영업/정상'
+        ]]>
+    </select>
+
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ipad.project.locationAnalysis.dao.IResidentPopulationRepository">
+
+    <!-- 연령 인구 -->
+    <select id="getTotalPopulation" resultType="com.ipad.project.locationAnalysis.model.ResidentPopulationVO">
+        SELECT r.region_name as region_name_detail, p.population_total
+        FROM region r
+        JOIN resident_population p ON r.adm_cd = p.adm_cd
+        WHERE p.year = (SELECT MAX(year) FROM resident_population)
+    </select>
+
+    <!-- 총인구 AgeGroup -->
+    <select id="getAgeGroup" resultType="com.ipad.project.locationAnalysis.model.ResidentPopulationVO">
+        SELECT r.region_name as region_name_detail, p.population_10, p.population_20, p.population_30,
+               p.population_40, p.population_50, p.population_60, p.population_70
+        FROM Region r
+        JOIN Resident_Population p ON r.adm_cd = p.adm_cd
+        WHERE p.year = (SELECT MAX(year) FROM Resident_Population)
+    </select>
+
+    <!-- 주거인구 데이터 -->
+    <select id="selectPopulationData" parameterType="java.lang.String" resultType="com.ipad.project.locationAnalysis.model.ResidentPopulationVO">
+    <![CDATA[
+        SELECT r.*, region.region_name_detail
+        FROM (
+            SELECT *
+            FROM (
+                SELECT *
+                FROM resident_population
+                WHERE adm_cd = #{admCd}
+                ORDER BY year DESC
+            ) r
+            WHERE ROWNUM <= 5
+        ) r
+        JOIN region ON r.adm_cd = region.adm_cd
+        ORDER BY r.year ASC
+        ]]>
+    </select>
+
+    <!-- Open API를 DB에 저장 -->
+    <insert id="saveRecord" parameterType="java.util.Map">
+        <![CDATA[
+        <script>
+            <choose>
+                <when test="option.equals('0')">
+                    INSERT INTO Resident_Population (adm_cd, year, Population_total)
+                    VALUES (#{record.adm_cd}, #{year}, #{record.population})
+                </when>
+                <when test="option.equals('1')">
+                    UPDATE Resident_Population
+                    SET Population_male = #{record.population}
+                    WHERE adm_cd = #{record.adm_cd} and year = #{year}
+                </when>
+                <when test="option.equals('2')">
+                    UPDATE Resident_Population
+                    SET Population_female = #{record.population}
+                    WHERE adm_cd = #{record.adm_cd} and year = #{year}
+                </when>
+                <when test="option.equals('31')">
+                    UPDATE Resident_Population
+                    SET Population_10 = #{record.population}
+                    WHERE adm_cd = #{record.adm_cd} and year = #{year}
+                </when>
+                <when test="option.equals('32')">
+                    UPDATE Resident_Population
+                    SET Population_20 = #{record.population}
+                    WHERE adm_cd = #{record.adm_cd} and year = #{year}
+                </when>
+                <when test="option.equals('33')">
+                    UPDATE Resident_Population
+                    SET Population_30 = #{record.population}
+                    WHERE adm_cd = #{record.adm_cd} and year = #{year}
+                </when>
+                <when test="option.equals('34')">
+                    UPDATE Resident_Population
+                    SET Population_40 = #{record.population}
+                    WHERE adm_cd = #{record.adm_cd} and year = #{year}
+                </when>
+                <when test="option.equals('35')">
+                    UPDATE Resident_Population
+                    SET Population_50 = #{record.population}
+                    WHERE adm_cd = #{record.adm_cd} and year = #{year}
+                </when>
+                <when test="option.equals('36')">
+                    UPDATE Resident_Population
+                    SET Population_60 = #{record.population}
+                    WHERE adm_cd = #{record.adm_cd} and year = #{year}
+                </when>
+                <when test="option.equals('37')">
+                    UPDATE Resident_Population
+                    SET Population_70 = #{record.population}
+                    WHERE adm_cd = #{record.adm_cd} and year = #{year}
+                </when>
+            </choose>
+        </script>
+        ]]>
+    </insert>
+
+    <!-- DB에서 시군 cd 조회 -->
+    <select id="getAdmCode" resultType="java.lang.String">
+        Select adm_cd from region
+    </select>
+
+    <!-- 데이터 업데이트 -->
+    <update id="UpdateData" parameterType="java.util.Map">
+        <![CDATA[
+        <script>
+            <choose>
+                <when test="option.equals('0')">
+                    UPDATE Resident_Population
+                    SET Population_total = #{record.population}
+                    WHERE adm_cd = #{record.adm_cd} and year = #{year}
+                </when>
+            </choose>
+        </script>
+        ]]>
+    </update>
+
+    <!-- 최근 년도 조회 -->
+    <select id="getRecentYear" resultType="java.lang.String">
+        SELECT MAX(year) AS year FROM resident_population
+    </select>
+
+</mapper>

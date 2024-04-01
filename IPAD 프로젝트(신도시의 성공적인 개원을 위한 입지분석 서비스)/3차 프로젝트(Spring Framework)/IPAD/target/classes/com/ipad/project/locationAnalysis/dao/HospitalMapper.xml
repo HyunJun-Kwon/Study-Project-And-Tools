@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ipad.project.locationAnalysis.dao.IHospitalRepository">
+
+	<resultMap id="hospitalCountResultMap"
+		type="com.ipad.project.locationAnalysis.model.HospitalCountVO">
+		<result property="year" column="year" />
+		<result property="region" column="region" />
+		<result property="count" column="count" />
+	</resultMap>
+
+	<resultMap id="hospitalDetailResultMap"
+		type="com.ipad.project.getRegionData.model.HospitalDetailVO">
+		<result property="hospital_name" column="hospital_name" />
+		<result property="region" column="region" />
+		<result property="region_name_detail" column="region_name_detail" />
+		<result property="address" column="address" />
+		<result property="business_status" column="business_status" />
+		<result property="x_coordinate" column="x_coordinate" />
+		<result property="y_coordinate" column="y_coordinate" />
+		<result property="license_date" column="license_date" />
+		<result property="close_date" column="close_date" />
+	</resultMap>
+
+	<select id="getHospitalCount" parameterType="int" resultMap="hospitalCountResultMap">
+    	<![CDATA[
+        SELECT region, COALESCE(SUM(CASE WHEN license_date <= TO_DATE(#{year}, 'YYYY') AND business_status = '영업/정상' THEN 1 ELSE 0 END), 0) AS count, #{year} as year
+        FROM hospital
+        GROUP BY region
+        ]]>
+	</select>
+
+	<select id="getHospitalData" resultMap="hospitalDetailResultMap">
+		SELECT h.hospital_name, r.region_name_detail, h.region, h.license_date,
+		h.close_date, h.address, h.x_coordinate, h.y_coordinate,
+		h.business_status
+		FROM hospital h JOIN region r ON h.region = r.region_name
+	</select>
+
+	<insert id="saveRecord">
+		INSERT INTO Hospital (region, hospital_name, license_date, business_status,
+		address, close_date, x_coordinate, y_coordinate)
+		VALUES (#{record.region}, #{record.hospitalName}, #{record.licenseDate},
+		#{record.businessStatus}, #{record.address}, #{record.closeDate},
+		#{record.xCoordinate}, #{record.yCoordinate})
+	</insert>
+
+	<select id="getSigunNm" resultType="java.lang.String">
+		SELECT region_name
+		FROM region
+		WHERE region_name != '송파구'
+	</select>
+
+	<update id="updateData">
+		UPDATE Hospital
+		SET region = #{record.region}, business_status =
+		#{record.businessStatus}, address = #{record.address}, close_date =
+		#{record.closeDate}, x_coordinate = #{record.xCoordinate},
+		y_coordinate = #{record.yCoordinate}
+		WHERE hospital_name = #{record.hospitalName} AND license_date =
+		#{record.licenseDate}
+	</update>
+
+</mapper>

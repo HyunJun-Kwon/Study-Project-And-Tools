@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.00//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ipad.project.locationAnalysis.dao.IFootTrafficRepository">
+	<resultMap id="footTrafficResultMap"
+		type="com.ipad.project.locationAnalysis.model.FootTrafficVO">
+		<result property="adm_cd" column="adm_cd" />
+		<result property="quater" column="quater" />
+		<result property="population_total" column="population_total" />
+		<result property="population_mon" column="population_mon" />
+		<result property="population_tues" column="population_tues" />
+		<result property="population_wed" column="population_wed" />
+		<result property="population_thur" column="population_thur" />
+		<result property="population_fri" column="population_fri" />
+		<result property="population_sat" column="population_sat" />
+		<result property="population_sun" column="population_sun" />
+		<result property="rnum" column="rnum"/>
+		<result property="region_name_detail"
+			column="region_name_detail" />
+	</resultMap>
+
+	<select id="selectFootTrafficData"
+		resultMap="footTrafficResultMap">
+		<![CDATA[
+		SELECT ft.*, region.region_name_detail
+		FROM (
+		SELECT ft.*, ROWNUM AS rnum
+		FROM (
+		SELECT *
+		FROM Foot_Traffic
+		WHERE adm_cd = '11240820'
+		ORDER BY quater DESC
+		) ft
+		WHERE ROWNUM <= 7
+		) ft
+		JOIN region ON ft.adm_cd = region.adm_cd
+		WHERE ft.rnum <= 7
+		ORDER BY ft.quater ASC
+		]]>
+	</select>
+
+	<insert id="saveRecord" parameterType="java.util.Map">
+		INSERT INTO FOOT_TRAFFIC
+		(ADM_CD, QUATER, POPULATION_TOTAL, POPULATION_MON,
+		POPULATION_TUES,
+		POPULATION_WED, POPULATION_THUR, POPULATION_FRI,
+		POPULATION_SAT,
+		POPULATION_SUN)
+		VALUES (#{adm_cd}, #{quater}, #{population_total},
+		#{population_mon},
+		#{population_tues}, #{population_wed},
+		#{population_thur},
+		#{population_fri}, #{population_sat},
+		#{population_sun})
+	</insert>
+
+	<update id="updateDate" parameterType="java.util.Map">
+		UPDATE FOOT_TRAFFIC
+		SET
+		POPULATION_TOTAL = #{population_total}, POPULATION_MON =
+		#{population_mon}, POPULATION_TUES = #{population_tues},
+		POPULATION_WED = #{population_wed}, POPULATION_THUR =
+		#{population_thur}, POPULATION_FRI = #{population_fri}, POPULATION_SAT
+		= #{population_sat}, POPULATION_SUN = #{population_sun}
+		WHERE ADM_CD =
+		#{adm_cd} AND QUATER = #{quater}
+	</update>
+</mapper>

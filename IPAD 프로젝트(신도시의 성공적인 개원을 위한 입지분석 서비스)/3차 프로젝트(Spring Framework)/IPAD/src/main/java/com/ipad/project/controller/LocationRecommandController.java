@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,40 +17,50 @@ import com.ipad.project.getRegionData.model.HospitalDetailVO;
 import com.ipad.project.getRegionData.service.IGetRegionDataService;
 import com.ipad.project.locationRecommand.model.RecommandVO;
 import com.ipad.project.locationRecommand.service.IRecommandService;
+import com.ipad.project.population.service.IRegionDataUpdateService;
 
 @Controller
 public class LocationRecommandController{
 
-		@Autowired
-		IRecommandService recommandService;
-		
-		@Autowired
-		IGetRegionDataService getRegionDataService;
+	@Autowired
+	IRecommandService recommandService;
 	
-		@GetMapping(value="/locationRecommand/recommand")
-		public String viewRecommand(Model model) {
-			return "locationRecommand/recommand";	
-		}
-		
-		@PostMapping(value ="/json/locationRecommand")
-		public @ResponseBody List<RecommandVO>  getRegionList(@RequestBody Map<String, Boolean> data, Model model) {
-			boolean opt1 = data.get("checkOrth");
-			boolean opt2 = data.get("checkImpl");
-			List<RecommandVO> recommand = recommandService.recommandRegion(opt1, opt2);
-			return recommand;
-		}
-		
-		@PostMapping(value="/json/predict")
-		public @ResponseBody GetRegionDataVO predictData(@RequestBody Map<String, String> data,  Model model) {
-			String adm_nm = data.get("name");
-			GetRegionDataVO recommand = getRegionDataService.regionInfo(adm_nm);
-			return recommand;
-		}
-		
-		@GetMapping(value="/json/map")
-		public @ResponseBody List<HospitalDetailVO> mapData() {
-			List<HospitalDetailVO> hospital = getRegionDataService.getHospitalData();
-			return hospital;
-		}
+	@Autowired
+	IGetRegionDataService getRegionDataService;
+	
+	@Autowired
+	IRegionDataUpdateService regionDataUpdateService;
+	
+	//서버 시작 실행 후 90일마다 실행
+	@Scheduled(fixedDelay=60000L*60*24*90)
+	public void init() {
+		regionDataUpdateService.insertData();
+	}
+
+	@GetMapping(value="/locationRecommand/recommand")
+	public String viewRecommand(Model model) {			
+		return "locationRecommand/recommand";	
+	}
+	
+	@PostMapping(value ="/json/locationRecommand")
+	public @ResponseBody List<RecommandVO>  getRegionList(@RequestBody Map<String, Boolean> data, Model model) {
+		boolean opt1 = data.get("checkOrth");
+		boolean opt2 = data.get("checkImpl");
+		List<RecommandVO> recommand = recommandService.recommandRegion(opt1, opt2);
+		return recommand;
+	}
+	
+	@PostMapping(value="/json/predict")
+	public @ResponseBody GetRegionDataVO predictData(@RequestBody Map<String, String> data,  Model model) {
+		String adm_nm = data.get("name");
+		GetRegionDataVO recommand = getRegionDataService.regionInfo(adm_nm);
+		return recommand;
+	}
+	
+	@GetMapping(value="/json/map")
+	public @ResponseBody List<HospitalDetailVO> mapData() {
+		List<HospitalDetailVO> hospital = getRegionDataService.getHospitalData();
+		return hospital;
+	}
 		
 }

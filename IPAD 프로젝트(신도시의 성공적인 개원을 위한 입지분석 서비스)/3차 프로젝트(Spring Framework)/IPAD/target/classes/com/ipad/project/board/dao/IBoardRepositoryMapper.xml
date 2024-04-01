@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.ipad.project.board.dao.IBoardRepository">
+	<resultMap id="getList" type="com.ipad.project.board.model.BoardVo">
+		<result property="num" column="NUM"/>
+		<result property="writer" column="WRITER"/>
+		<result property="email" column="EMAIL"/>
+		<result property="subject" column="SUBJECT"/>
+		<result property="password" column="PASSWORD"/>
+		<result property="reg_date" column="REG_DATE"/>
+		<result property="readcount" column="READCOUNT"/>
+		<result property="content" column="CONTENT"/>
+		<result property="ref" column="REF"/>
+		<result property="re_step" column="RE_STEP"/>
+		<result property="re_level" column="RE_LEVEL"/>
+		<result property="rnum" column="RNUM"/>
+	</resultMap>
+	
+	<select id="list" parameterType="map" resultMap="getList">
+		select * from (select A.*, Rownum Rnum from (select * from memberBoard order by num desc)A) where Rnum <![CDATA[ > ]]> #{startRow} and Rnum <![CDATA[ <= ]]> #{endRow} and num != 0
+	</select>
+	
+	<select id="view" parameterType="int" resultMap="getList">
+		select * from memberboard where num=#{num}
+	</select>
+	
+	<insert id="write" parameterType="com.ipad.project.board.model.BoardVo">
+	
+		insert into MEMBERBOARD (num, ref, readcount, writer, subject, email, password, content, reg_date) values 
+		(memberboard_seq.nextVal, memberboard_seq.nextVal, 0, #{writer}, #{subject}, #{email}, #{password}, #{content}, TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS')) 
+	</insert>
+	
+	<delete id="delete" parameterType="String" >
+		delete from memberboard where num = #{num}
+	</delete>
+	
+	<update id="edit" parameterType="com.ipad.project.board.model.BoardVo">
+		update memberboard set subject=#{subject}, email=#{email}, password=#{password}, content=#{content} 
+		where num =#{num}
+	</update>
+	
+	<update id="readCount" parameterType="int">
+		update MEMBERBOARD set READCOUNT = READCOUNT+1 where num = #{num} 
+	</update>
+	
+	<select id="count" resultType="int">
+		select count(*) from memberboard
+	</select>
+	
+	<insert id="reply" parameterType="com.ipad.project.board.model.BoardVo">
+		insert into memberboard (num, ref, content, reg_date) values (0, #{num}, #{text}, TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS'))
+	</insert>
+	
+	<select id="replyList" parameterType="int" resultMap="getList">
+		select * from memberboard where ref=#{num} and num != #{num} 
+	</select>
+	
+	<select id="replyCount" parameterType="int" resultType="int">
+		select count(*) from memberboard where ref = #{num} and num != #{num}
+	</select>
+	
+	</mapper>

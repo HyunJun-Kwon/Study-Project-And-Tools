@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ipad.project.locationAnalysis.dao.IPopulationForecastRepository">
+
+    <!-- 인구 예측 데이터 조회 -->
+    <select id="getPopulation" resultType="com.ipad.project.locationAnalysis.model.PopulationForecastVO">
+        SELECT region, year, population FROM Population_forecast ORDER BY region ASC, year ASC
+    </select>
+
+    <!-- 데이터 저장 -->
+    <insert id="saveData" parameterType="com.ipad.project.locationAnalysis.model.PopulationForecastVO">
+        INSERT INTO Population_forecast (year, region, population, birth, death, number_house, family)
+        VALUES (#{year}, #{region}, #{population}, #{birth}, #{death}, #{numberHouse}, #{family})
+    </insert>
+
+    <!-- 특정 지역의 집 수 조회 -->
+    <select id="getNumberHouse" resultType="int" parameterType="String">
+        SELECT number_house FROM Population_forecast WHERE year = 2022 AND region = #{region}
+    </select>
+
+    <!-- 특정 지역의 가족 수 조회 -->
+    <select id="getFamily" resultType="int" parameterType="String">
+        SELECT family FROM Population_forecast WHERE year = 2022 AND region = #{region}
+    </select>
+
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.ipad.project.population.dao.IRegionDataUpdateRepository">
+		<select id="selectAdm" resultType="string">
+		select adm_cd from region order by adm_cd
+		</select>
+		<insert id="insertOtherData" parameterType="com.ipad.project.population.model.RegionDataUpdateVO">
+		insert into region_otherData (adm_cd, household, houseprice, dentalclinic, income, subway, bus, resident, floatpp) values (#{adm_cd},#{houseHold},#{housePrice},#{dentalClinic},#{income},#{subway},#{bus},#{resident},#{floatingPp})
+		</insert>
+		
+		<insert id="insertRegion" parameterType="string">
+		
+			insert into region_population (adm_cd) values (#{code})
+		</insert>
+		<insert id="insertRegionSale" parameterType="string">
+		
+			insert into region_sale (adm_cd) values (#{code})
+		</insert>
+		<update id="updatePopulation" parameterType="map">
+			UPDATE region_population
+        <set>
+            <choose>
+                <when test="age == 41">
+                    population = #{population, jdbcType=INTEGER}
+                </when>
+                <when test="age == 30">
+                    UNDER10S = #{population, jdbcType=INTEGER}
+                </when>
+                <when test="age == 31">
+                    TEENS = #{population, jdbcType=INTEGER}
+                </when>
+                <when test="age == 32">
+                    TWENTIES = #{population, jdbcType=INTEGER}
+                </when>
+                <when test="age == 33">
+                    THIRTIES = #{population, jdbcType=INTEGER}
+                </when>
+                <when test="age == 34">
+                    FORTIES = #{population, jdbcType=INTEGER}
+                </when>
+                <when test="age == 35">
+                    FIFTIES = #{population, jdbcType=INTEGER}
+                </when>
+                <when test="age == 36">
+                    SIXTIES = #{population, jdbcType=INTEGER}
+                </when>
+                <when test="age == 40">
+                    OVER70S = #{population, jdbcType=INTEGER}
+                </when>
+            </choose>
+        </set>
+        WHERE adm_cd = #{adm_cd, jdbcType=VARCHAR}  
+		</update>
+		
+		<update id="updateSale" parameterType="map">
+			update region_sale set sale=#{sale} where adm_cd=#{adm_cd}
+		</update>
+		<select id="regionCheck" resultType="string">
+			select adm_cd from region where adm_cd not in (select adm_cd from region_population)
+		</select>
+		<insert id="addRegion" parameterType="string">
+			insert into region_population (adm_cd) values (#{adm_cd})
+		</insert>
+	</mapper>
+	

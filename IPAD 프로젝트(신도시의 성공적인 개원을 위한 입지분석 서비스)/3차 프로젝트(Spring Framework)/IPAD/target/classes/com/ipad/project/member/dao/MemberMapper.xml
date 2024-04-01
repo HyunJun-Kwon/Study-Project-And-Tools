@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ipad.project.member.dao.IMemberRepository">
+
+	<insert id="insertMember" parameterType="Map">
+		insert into login values(#{id},#{pass1},#{email},#{name},#{tel},#{year},#{map})
+	</insert>
+	
+	<select id="confirmId" parameterType="String" resultType="com.ipad.project.member.model.MemberVO">
+		select id from login where id = #{id}
+	</select>
+	
+	<select id="loginCheck" parameterType="Map" resultType="com.ipad.project.member.model.MemberVO">
+		select id,name,pass1 from login where id= #{id} and pass1=#{pass1}
+	</select>
+	
+	<select id="editSearch" parameterType="Map" resultType="com.ipad.project.member.model.MemberVO">
+		select * from login where id=#{id} and pass1=#{pass}
+	</select>
+	
+	<update id="editUpdate" parameterType="Map">
+		update login set pass1=#{pass1}, email=#{email}, name=#{name}, tel=#{tel}, year=#{year}, map=#{map} where id=#{id}
+	</update>
+	
+	<delete id="deleteMember" parameterType="Map">
+		delete from login where id=#{id} and pass1=#{pass1}
+	</delete>
+</mapper>
+
