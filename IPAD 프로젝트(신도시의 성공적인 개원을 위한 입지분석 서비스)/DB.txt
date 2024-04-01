@@ -1,0 +1,275 @@
+/*지역 테이블 생성*/
+CREATE TABLE Region (
+    adm_cd VARCHAR2(30) not null PRIMARY KEY,
+    region_name VARCHAR2(20) not null UNIQUE,
+    region_name_detail VARCHAR2(20) not null
+);
+
+
+insert into region values('11240820', '송파구', '송파구 위례');
+insert into region values('31021680', '성남시', '성남시 위례');
+insert into region values('31180650', '하남시', '하남시 위례');
+
+
+/*2팀 테이블 작성*/
+CREATE TABLE Hospital (
+    hospital_name VARCHAR2(50) not null ,
+    region VARCHAR2(20) not null ,
+    license_date Date not null ,
+    business_status VARCHAR(20) not null,
+    address  VARCHAR(200) not null,
+    close_date Date,
+    x_coordinate Number not null,
+    y_coordinate Number not null,
+    PRIMARY KEY (hospital_name, license_date),
+    FOREIGN KEY (region) REFERENCES Region (region_name)
+);
+
+CREATE TABLE Resident_Population (
+    adm_cd VARCHAR2(30),
+    year VARCHAR2(20),
+    population_total VARCHAR2(20),
+    population_male VARCHAR2(20),
+    population_female VARCHAR2(20),
+    population_10 VARCHAR2(20),
+    population_20 VARCHAR2(20),
+    population_30 VARCHAR2(20),
+    population_40 VARCHAR2(20),
+    population_50 VARCHAR2(20),
+    population_60 VARCHAR2(20),
+    population_70 VARCHAR2(20),
+    PRIMARY KEY (adm_cd, year),
+    FOREIGN KEY (adm_cd) REFERENCES Region (adm_cd)
+);
+
+CREATE TABLE Foot_Traffic (
+    adm_cd VARCHAR2(30),
+    quater VARCHAR2(20),
+    population_total VARCHAR2(20),
+    population_mon VARCHAR2(20),
+    population_tues VARCHAR2(20),
+    population_wed VARCHAR2(20),
+    population_thur VARCHAR2(20),
+    population_fri VARCHAR2(20),
+    population_sat VARCHAR2(20),
+    population_sun VARCHAR2(20),
+    PRIMARY KEY (adm_cd, quater),
+    FOREIGN KEY (adm_cd) REFERENCES Region (adm_cd)
+);
+
+CREATE TABLE OpenClose_Count (
+    year INT PRIMARY KEY,
+    openings INT,
+    closures INT,
+    count int
+);
+
+CREATE TABLE Population_forecast (
+    year number,
+    region varchar2(20),
+    population number,
+    birth number,
+    death number,
+    number_house number,
+    family number,    
+    PRIMARY KEY (year, region),
+    FOREIGN KEY (region) REFERENCES Region (region_name)
+);
+insert into Population_forecast values(2022, '하남시', 28920, 210, 61, 8590,10182);
+insert into Population_forecast values(2022, '송파구', 42590, 339, 120, 13558,14039);
+insert into Population_forecast values(2022, '성남시', 42833, 304, 210, 14577,16966);
+
+
+
+/* 1팀 테이블 작성*/
+create table region_data(
+adm_cd varchar2(30),
+population number,
+under10s number,
+teens number,
+twenties number,
+thirties number,
+forties number,
+fifties number,
+sixties number,
+over70s number,
+household number,
+houseprice number,
+dentalclinic number,
+income number,
+subway number,
+bus number,
+resident number,
+floatpp number,
+sale number,
+primary key (adm_cd),
+foreign key (adm_cd) references region(adm_cd)
+);
+
+CREATE TABLE Detail_data (
+    adm_cd VARCHAR2(30),
+    year VARCHAR2(20),
+    population_total VARCHAR2(20),
+    population_male VARCHAR2(20),
+    population_female VARCHAR2(20),
+    population_10 VARCHAR2(20),
+    population_20 VARCHAR2(20),
+    population_30 VARCHAR2(20),
+    population_40 VARCHAR2(20),
+    population_50 VARCHAR2(20),
+    population_60 VARCHAR2(20),
+    population_70 VARCHAR2(20),
+    household varchar2(20),
+    elementry varchar2(20),
+    middle varchar2(20),
+    high varchar2(20),
+    PRIMARY KEY (adm_cd, year),
+    FOREIGN KEY (adm_cd) REFERENCES Region (adm_cd)
+);
+
+
+/* 좌표 테이블 생성*/
+
+create table Overlay(
+adm_cd varchar2(30),
+name varchar2(30),
+lat number(10,7),
+lng number(10,7),
+foreign key (adm_cd) references region(adm_cd)
+);
+
+insert into overlay values('11240820','송파구 위례동','37.4811716','127.1439458');
+insert into overlay values('31021680','성남시 위례동','37.4713243','127.1442983');
+insert into overlay values('31180650','하남시 위례동','37.4771689','127.1523914');
+
+
+create table rentfee(
+adm_cd varchar2(30),
+region_name varchar2(20),
+rent_per number,
+FOREIGN KEY (adm_cd) REFERENCES Region (adm_cd)
+);
+
+insert into rentfee values('11240820','송파구 위례동',117000);
+insert into rentfee values('31021680','성남시 위례동',156000);
+insert into rentfee values('31180650','하남시 위례동',106000);
+
+create table employmentfee(
+adm_cd varchar2(30),
+under_three_year number,
+over_ten_year number,
+average number,
+FOREIGN KEY (adm_cd) REFERENCES Region (adm_cd)
+);
+
+insert into employmentfee values('11240820',3254,4917,4100);
+insert into employmentfee values('31021680',3254,4917,4100);
+insert into employmentfee values('31180650',3254,4917,4100);
+/*
+create table S_CHART_DATA(
+adm_cd varchar2(30),
+year varchar2(20),
+population number,
+float_pp number,
+countclinic number,
+PRIMARY key (adm_cd,year),
+foreign key (adm_cd) references region(adm_cd)
+);
+
+insert into S_CHART_DATA values ('11240820','2019',27973,10961086,3);
+insert into S_CHART_DATA values ('11240820','2020',28405,12388014,3);
+insert into S_CHART_DATA values ('11240820','2021',36952,13153403,4);
+insert into S_CHART_DATA values ('11240820','2022',43322,14106988,5);
+insert into S_CHART_DATA values ('31021680','2019',43207,7193675,28);
+insert into S_CHART_DATA values ('31021680','2020',44133,8130158,29);
+insert into S_CHART_DATA values ('31021680','2021',44233,8632477,30);
+insert into S_CHART_DATA values ('31021680','2022',43369,9258306,30);
+insert into S_CHART_DATA values ('31180650','2019',18104,2131943,0);
+insert into S_CHART_DATA values ('31180650','2020',18334,2409482,0);
+insert into S_CHART_DATA values ('31180650','2021',25711,2558351,1);
+insert into S_CHART_DATA values ('31180650','2022',29366,2743824,4);
+*/
+
+/* 매출 가중치 테이블 작성*/
+create table sale_point(
+constant number,
+population_20_point number,
+population_30_point number,
+population_60_point number,
+population_over70_point number,
+floatpp_point number,
+income_point number,
+dentalclinic_point number,
+subway_point number
+);
+insert into sale_point values (519600000, 79900, -38550, 91930, -100200, -23.91, -166.5,109200000,57670000);
+/*환자 가중치*/
+create table patient_point(
+constant number,
+population_point number,
+float_point number,
+income_point number,
+dentist_point number
+);
+
+insert into patient_point values (4.124e+03, 1.173e-01, -3.609e-04, -1.253e-03, 8.153e+02);
+
+INSERT INTO hospital (license_date, business_status, close_date, address, hospital_name, x_coordinate, y_coordinate, region)
+VALUES
+    ('2023-12-04', '영업/정상', NULL, '서울특별시 송파구 위례서로 234, 2층 213~216호 (거여동)', '이아소치과의원', 37.50034339 - 0.01477361522, 127.1278089 + 0.01397816649, '송파구');
+    INSERT INTO hospital (license_date, business_status, close_date, address, hospital_name, x_coordinate, y_coordinate, region)
+VALUES
+    ('2018-02-23', '폐업', '2018-05-28', '서울특별시 송파구 위례광장로 200, 에스비트램스퀘어 (장지동)', '위례이사랑치과의원', 37.49852276 - 0.01477361522, 127.1220161 + 0.01397816649, '송파구');
+INSERT INTO hospital (license_date, business_status, close_date, address, hospital_name, x_coordinate, y_coordinate, region)
+VALUES
+    ('2009-05-01', '폐업', '2010-12-27', '서울특별시 송파구 위례성대로18길 31-20 (방이동,Mike-Tower 2층)', '송파클라인치과의원', 37.52544307 - 0.01477361522, 127.1066687 + 0.01397816649, '송파구');
+INSERT INTO hospital (license_date, business_status, close_date, address, hospital_name, x_coordinate, y_coordinate, region)
+VALUES
+    ('1988-12-29', '폐업', '2021-01-09', '서울특별시 송파구 위례성대로 102 (방이동, 태평양파크빌라트 202호)', '임문우치과교정과치과의원', 37.52940298 - 0.01477361522, 127.1039029 + 0.01397816649, '송파구');
+INSERT INTO hospital (license_date, business_status, close_date, address, hospital_name, x_coordinate, y_coordinate, region)
+VALUES 
+    ('2015-06-15', '영업/정상', NULL, '서울특별시 송파구 위례광장로 193, 대길프라자 3층 (장지동)', '위례봄치과의원', 37.49836883 - 0.01477361522, 127.1218106 + 0.01397816649, '송파구');
+INSERT INTO hospital (license_date, business_status, close_date, address, hospital_name, x_coordinate, y_coordinate, region)
+VALUES    
+    ('2015-02-09', '폐업', '2016-09-03', '서울특별시 송파구 위례광장로 199 (장지동, 성희프라자 4층 403호)', '위례서울치과의원', 37.49842587 - 0.01477361522, 127.121835 + 0.01397816649, '송파구');
+INSERT INTO hospital (license_date, business_status, close_date, address, hospital_name, x_coordinate, y_coordinate, region)
+VALUES    
+    ('2013-08-27', '영업/정상', NULL, '서울특별시 송파구 위례성대로18길 31-20 (방이동, MIK타워 401호)', 'JnS오치과의원', 37.52544307 - 0.01477361522, 127.1066687 + 0.01397816649, '송파구');
+INSERT INTO hospital (license_date, business_status, close_date, address, hospital_name, x_coordinate, y_coordinate, region)
+VALUES    
+    ('2016-03-04', '영업/정상', NULL, '서울특별시 송파구 위례광장로 136, D-209,D-210호 (장지동, 위례아이파크)', '위례중앙치과의원', 37.49455368 - 0.01477361522, 127.1276111 + 0.01397816649, '송파구');
+INSERT INTO hospital (license_date, business_status, close_date, address, hospital_name, x_coordinate, y_coordinate, region)
+VALUES    
+    ('2017-11-22', '영업/정상', NULL, '서울특별시 송파구 위례광장로 188, 6층 613호 (장지동)', '연세스타치과의원', 37.49828297 - 0.01477361522, 127.1219334 + 0.01397816649, '송파구');
+INSERT INTO hospital (license_date, business_status, close_date, address, hospital_name, x_coordinate, y_coordinate, region)
+VALUES    
+    ('1996-12-09', '영업/정상', NULL, '서울특별시 송파구 위례성대로 38, 201호 (방이동, 해태빌라트)', '장덕수치과의원', 37.53069017 - 0.01477361522, 127.1001519 + 0.01397816649, '송파구');
+
+
+CREATE TABLE login(
+id varchar2(20) PRIMARY KEY,
+pass1 varchar2(20),
+email varchar2(50),
+name varchar2(20),
+tel varchar2(20),
+year varchar2(20),
+map varchar2(20)
+);
+
+CREATE TABLE memberBoard (
+    num          NUMBER(2) NOT NULL,
+    writer       VARCHAR2(50 BYTE),
+    email        VARCHAR2(20 BYTE),
+    subject      VARCHAR2(50 BYTE),
+    password    VARCHAR2(20 BYTE),
+    reg_date     VARCHAR2(50 BYTE),
+    readcount    NUMBER(2),
+    content      VARCHAR2(500 BYTE),
+    ref          NUMBER(2),
+    re_step      NUMBER(2),
+    re_level     NUMBER(2)
+);
+
+create sequence memberboard_seq;
+    
+commit;
