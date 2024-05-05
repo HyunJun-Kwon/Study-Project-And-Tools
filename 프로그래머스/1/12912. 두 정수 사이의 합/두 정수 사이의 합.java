@@ -1,18 +1,13 @@
+import java.lang.Math;
+
 class Solution {
     public long solution(int a, int b) {
         long answer = 0;
         
-        if(a > b) {
-            for(int i=b; i<a+1; i++) {
-                answer = answer + i;
-            }
-        } else if(a < b) {
-            for(int i=a; i<b+1; i++) {
-                answer = answer + i;
-            }
-        } else {
-            answer = a;
-        }
+        int large = Math.max(a,b);
+        int small = Math.min(a,b);
+        
+        answer = ((long) (large-small+1)*(large+small) / 2);
         
         return answer;
     }
