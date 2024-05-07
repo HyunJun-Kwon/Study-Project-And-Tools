@@ -11,12 +11,12 @@ class Solution {
             for (int j = 0; j < n; j++) {
                 if (land[i][j] == 0) continue;
 
-                Set<Integer> candidates = new HashSet<>();
+                Set<Integer> number = new HashSet<>();
                 Queue<int[]> q = new ArrayDeque<>();
                 q.add(new int[]{i, j});
                 int area = 1;
                 land[i][j] = 0;
-                candidates.add(j);
+                number.add(j);
 
                 while (!q.isEmpty()) {
                     int[] cur = q.poll();
@@ -33,14 +33,14 @@ class Solution {
 
                             area++;
                             land[nr][nc] = 0;
-                            candidates.add(nc);
+                            number.add(nc);
                             q.add(new int[]{nr, nc});
                         }
                     }
                 }
 
-                for (int candidate : candidates) {
-                    count[candidate] += area;
+                for (int weightNum : number) {
+                    count[weightNum] += area;
                 }
             }
         }
