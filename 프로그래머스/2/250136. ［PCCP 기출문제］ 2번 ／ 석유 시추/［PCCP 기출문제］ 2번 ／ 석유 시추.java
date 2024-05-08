@@ -1,4 +1,5 @@
 import java.util.*;
+import java.lang.*;
 
 class Solution {
     public int solution(int[][] land) {
@@ -9,8 +10,10 @@ class Solution {
 
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (land[i][j] == 0) continue;
-
+                if (land[i][j] == 0) {
+                    continue;
+                } 
+                
                 Set<Integer> number = new HashSet<>();
                 Queue<int[]> q = new ArrayDeque<>();
                 q.add(new int[]{i, j});
@@ -25,7 +28,7 @@ class Solution {
 
                     for (int a = -1; a <= 1; a++) {
                         for (int b = -1; b <= 1; b++) {
-                            if (((a^b)&1)!=1) continue;
+                            if (Math.abs(a-b) % 2 != 1) continue;
 
                             int nr = cr+a;
                             int nc = cc+b;
