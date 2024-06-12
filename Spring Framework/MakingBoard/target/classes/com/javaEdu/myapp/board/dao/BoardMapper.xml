@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaEdu.myapp.board.dao.IBoardRepository">
+	<resultMap type="com.javaEdu.myapp.board.model.BoardVO"
+		id="getList">
+		<result property="num" column="NUM" />
+		<result property="writer" column="WRITER" />
+		<result property="subject" column="SUBJECT" />
+		<result property="reg_date" column="REG_DATE" />
+		<result property="readCount" column="READ_COUNT" />
+	</resultMap>
+
+
+	<select id="list" resultMap="getList">
+		select * from board
+	</select>
+
+	<insert id="write"
+		parameterType="com.javaEdu.myapp.board.model.BoardVO">
+		insert into board (num,writer,subject,reg_date,read_count,password,content)
+		values (board_seq.nextVal, #{writer}, #{subject}, SYSDATE, 0,
+		#{password}, #{content})
+	</insert>
+
+	<update id="readCount" parameterType="int">
+		update board set read_count = read_count + 1 where num = #{num}
+	</update>
+
+	<select id="view" parameterType="int" resultMap="getList">
+		select * from board where num = #{num}
+	</select>
+
+	<delete id="delete"
+		parameterType="com.javaEdu.myapp.board.model.BoardCheckVO">
+		delete from board where num = #{num} and password = #{password}
+	</delete>
+
+	<select id="loadEdit"
+		parameterType="com.javaEdu.myapp.board.model.BoardCheckVO" resultMap="getList">
+		select * from board where num = #{num} and password = #{password}
+	</select>
+
+	<update id="edit"
+		parameterType="com.javaEdu.myapp.board.model.BoardVO">
+		update board set writer=#{writer}, subject=#{subject}, password=#{password},
+		content={#content} where num = #{num}
+	</update>
+
+	<select id="checkPW"
+		parameterType="com.javaEdu.myapp.board.model.BoardCheckVO"
+		resultType="int">
+		SELECT COUNT(*) FROM board
+		WHERE num = #{num} AND password = #{password}
+	</select>
+</mapper>
