@@ -43,8 +43,8 @@
 
 	<update id="edit"
 		parameterType="com.javaEdu.myapp.board.model.BoardVO">
-		update board set writer=#{writer}, subject=#{subject}, password=#{password},
-		content={#content} where num = #{num}
+		update board set subject=#{subject}, password=#{password},
+		content=#{content} where num = #{num}
 	</update>
 
 	<select id="checkPW"
