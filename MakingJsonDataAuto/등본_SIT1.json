@@ -1,0 +1,92 @@
+{
+  "EMSG": "",
+  "TRANSFERDATE": "",
+  "SCNAME": "업무테스트",
+  "SEDAEJUHANJANAME": "000000000000000000000000",
+  "OUTPUT_CONVERSION_CUSTOMER": "scbank",
+  "SEDAEJUNAME": "업무테스트",
+  "PROCESS_ID": "0",
+  "ERRDOC": "",
+  "CERTKEY": "",
+  "ECODE": "",
+  "SEDAEGUSEONGDATE": "20000217",
+  "HYEONJUSO": "서울특별시 양천구 목동서로 신정동, 목동신시가지아파트",
+  "OFFICE": "서울특별시 양천구 신정6동",
+  "CHANGEREASON": "전입",
+  "SCBIRTH": "010102",
+  "CHANGEDATE": "20200619",
+  "ISSUEDATE": "20200724",
+  "RESULT": "SUCCESS",
+  "SEDAELIST": [
+    {
+      "SEDAEJURELATION": "본인",
+      "HANJANAME": "000000000000000000000000",
+      "REGSTATE": "거주자",
+      "TRANSFERDATE": "",
+      "CHANGEREASON": "세대주변경",
+      "JUMIN": "010102-3999778",
+      "NAME": "업무테스트",
+      "INDEX": "1",
+      "CHANGEDATE": "20200619"
+    },
+    {
+      "SEDAEJURELATION": "배우자",
+      "HANJANAME": "000000000000000000000000",
+      "REGSTATE": "거주자",
+      "TRANSFERDATE": "",
+      "CHANGEREASON": "세대주변경",
+      "JUMIN": "020203-4999779",
+      "NAME": "업무테스트",
+      "INDEX": "1",
+      "CHANGEDATE": "20200619"
+    },
+    {
+      "SEDAEJURELATION": "자녀",
+      "HANJANAME": "000000000000000000000000",
+      "REGSTATE": "거주자",
+      "TRANSFERDATE": "",
+      "CHANGEREASON": "세대주변경",
+      "JUMIN": "970801-1000997",
+      "NAME": "업무테스트",
+      "INDEX": "1",
+      "CHANGEDATE": "20200619"
+    },
+    {
+      "SEDAEJURELATION": "자녀",
+      "HANJANAME": "000000000000000000000000",
+      "REGSTATE": "거주자",
+      "TRANSFERDATE": "",
+      "CHANGEREASON": "세대주변경",
+      "JUMIN": "080801-3000887",
+      "NAME": "업무테스트",
+      "INDEX": "1",
+      "CHANGEDATE": "20200619"
+    }  ],
+  "DJUSOLIST": [
+    {
+      "TRANSFERDATE": "20150820",
+      "TRANSFERADDR": "서울특별시 양천구 목동서로 280, 804호 1701호",
+      "INDEX": "1",
+      "CHANGEDATE": "20150820",
+      "CHANGEREASON": "전입"
+    },
+    {
+      "TRANSFERDATE": "20150820",
+      "TRANSFERADDR": "서울특별시 양천구 목동서로 280, 804호 1701호",
+      "INDEX": "1",
+      "CHANGEDATE": "20150820",
+      "CHANGEREASON": "전입"
+    }
+  ],
+  "FUNCNAME": "",
+  "FCODE": "MLMWGM",
+  "VERSCR": "",
+  "MODULE": "63",
+  "OFFICETELNUM": "022624285",
+  "REQNUMBER": "1595578585697882",
+  "ERRMSG": "",
+  "ETRACK": "",
+  "SEDAEGUSEONGREASON": "세대주변경",
+  "rsp_code": "200",
+  "rsp_msg": "정상"
+}

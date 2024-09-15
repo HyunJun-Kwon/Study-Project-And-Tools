@@ -1,0 +1,46 @@
+{
+  "EMSG": "",
+  "SCNAME": "업무테스트",
+  "CJUSOLIST": [
+    {
+      "TRANSFERDATE": "",
+      "TRANSFERADDR": "경기도 부천시 범안로 96번길 23 힐스테이트 4단지 404동 802호",
+      "INDEX": "1",
+      "CHANGEDATE": "19720629",
+      "CHANGEREASON": "출생등록",
+      "RELATION": "업무테스트"
+    },
+    {
+      "TRANSFERDATE": "19740731",
+      "TRANSFERADDR": "경기도 광명시 새터로 44-7 광명아크포레자이위브 1104동 1401호",
+      "INDEX": "2",
+      "CHANGEDATE": "19880731",
+      "CHANGEREASON": "전입",
+      "RELATION": "업무테스트"
+    }
+  ],
+  "OUTPUT_CONVERSION_CUSTOMER": "scbank",
+  "PROCESS_ID": "0",
+  "ERRDOC": "",
+  "CERTKEY": "",
+  "ECODE": "",
+  "OFFICE": "서울특별시 양천구 신정6동",
+  "SCBIRTH": "010102",
+  "ISSUEDATE": "20200724",
+  "JUMIN": "0101023999778",
+  "ARMYLIST": "[]",
+  "RESULT": "SUCCESS",
+  "FCODE": "MLMWGM",
+  "MODULE": "64",
+  "FUNCNAME": "",
+  "VERSCR": "",
+  "NAME": "업무테스트",
+  "OFFICETELNUM": "0226204285",
+  "REQNUMBER": "1595578608210829",
+  "INJUKLIST": "[]",
+  "ERRMSG": "",
+  "ETRACK": "",
+  "HANJANAME": "000000000000000000000000",
+  "rsp_code": "200",
+  "rsp_msg": "정상"
+}
